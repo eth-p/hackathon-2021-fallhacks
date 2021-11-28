@@ -20,17 +20,25 @@ func doGravity(sand *engine.GrainWithMetadata, dx, dy int) bool {
 
 	var target engine.GrainWithMetadata
 	if target = sand.Neighbor(dx, dy); !target.IsActionable() {
-		if target.GetFlag(engine.GrainLocked) {
-			sand.SetUpdated()
-			return true
-		}
-
 		return false
+	}
+
+	if target.GetFlag(engine.GrainLocked) {
+		sand.SetUpdated()
+		return true
 	}
 
 	// If the target grain is the same kind, skip it.
 	if target.Kind() == sandKind {
 		return false
+	}
+
+	// Check if there's a reaction first.
+	// If one occurs, cancel the movement.
+	for _, reaction := range sandKind.Reactions {
+		if reaction(sand, &target) {
+			return true
+		}
 	}
 
 	// Calculate the density difference.

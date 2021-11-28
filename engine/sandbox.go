@@ -21,8 +21,9 @@ func (contents *SandboxContents) At(x, y int) *Grain {
 
 // Sandbox is the game field and config of the falling sands game.
 type Sandbox struct {
-	Contents *SandboxContents
-	sands    []Sand
+	Contents    *SandboxContents
+	sands       []Sand
+	sandsByName map[string]SandID
 }
 
 // Size returns the (width, height) of the Sandbox.
@@ -66,8 +67,14 @@ func (sandbox *Sandbox) GrainAt(x, y int) GrainWithMetadata {
 
 // NewSandbox creates a new Sandbox.
 func NewSandbox(width, height uint, sands []Sand) Sandbox {
+	sandsByName := make(map[string]SandID)
+	for i := range sands {
+		sandsByName[sands[i].Name] = SandID(i)
+	}
+
 	return Sandbox{
-		sands: sands,
+		sands:       sands,
+		sandsByName: sandsByName,
 		Contents: &SandboxContents{
 			Width:  width,
 			Height: height,

@@ -59,7 +59,7 @@ func (grain *GrainWithMetadata) Kind() *Sand {
 	return grain.kind
 }
 
-// SetKind sets the Grain to a specific Sand, using its default values.
+// SetKind sets the Grain to a specific SandID, using its default values.
 func (grain *GrainWithMetadata) SetKind(id SandID) {
 	grain.Grain.Kind = id
 	grain.kind = &grain.sandbox.sands[id]
@@ -69,6 +69,11 @@ func (grain *GrainWithMetadata) SetKind(id SandID) {
 	if grain.kind.Init != nil {
 		grain.kind.Init(grain)
 	}
+}
+
+// SetKindByRef sets the Grain to a specific Sand, using its default values.
+func (grain *GrainWithMetadata) SetKindByRef(kind *Sand) {
+	grain.SetKind(grain.sandbox.sandsByName[kind.Name])
 }
 
 // Clear clears the Grain to the default value.
@@ -87,7 +92,7 @@ func (grain *GrainWithMetadata) HasUpdated() bool {
 
 // IsActionable returns true if the Grain has not updated this frame, and is inside the bounds of the Sandbox.
 func (grain *GrainWithMetadata) IsActionable() bool {
-	return grain.Grain != nil && !grain.HasUpdated() && !grain.GetFlag(GrainLocked)
+	return grain.Grain != nil && !grain.HasUpdated()
 }
 
 // SetUpdated sets the Grain to be considered updated.

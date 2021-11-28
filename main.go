@@ -16,6 +16,7 @@ func main() {
 	sandbox := engine.NewSandbox(SANDBOX_WIDTH, SANDBOX_HEIGHT, []engine.Sand{
 		sands.AIR,
 		sands.WALL,
+		sands.WOOD,
 		sands.SAND,
 		sands.WATER,
 		sands.FIRE,

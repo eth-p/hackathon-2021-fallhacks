@@ -12,6 +12,8 @@ var FIRE = engine.Sand{
 	Color:   color.RGBA{R: 236, G: 82, B: 0, A: 0},
 	Density: 0,
 
+	Tags: engine.TagPyro,
+
 	Behaviors: []engine.SandUpdateFunc{
 		behaviors.Expires(40),
 		behaviors.Gravity(0, -1),
