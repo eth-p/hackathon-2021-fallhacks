@@ -11,6 +11,7 @@ type SandUpdateFunc func(grain GrainWithMetadata)
 // Sand is an archetype for a grain of sand.
 // This describes what a kind of sand is and how it behaves.
 type Sand struct {
+	Name    string
 	Color   color.RGBA
 	Density float64
 

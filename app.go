@@ -1,14 +1,14 @@
 package main
 
 import (
-	"image/color"
+	"fmt"
+	"time"
 
 	"github.com/blizzy78/ebitenui"
 	"github.com/blizzy78/ebitenui/widget"
 	"github.com/hajimehoshi/ebiten/v2"
 
 	"github.com/eth-p/hackathon-2021-fallhacks/engine"
-	"github.com/eth-p/hackathon-2021-fallhacks/resources"
 	"github.com/eth-p/hackathon-2021-fallhacks/ui"
 )
 
@@ -27,24 +27,25 @@ func (game *App) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 func (game *App) Update() error {
 	game.ui.Update()
-	return game.engine.Update()
+
+	updateStart := time.Now()
+	err := game.engine.Update()
+	updateEnd := time.Now()
+
+	updateTime := updateEnd.Sub(updateStart)
+	fmt.Printf("Frame took %v\n", updateTime)
+	return err
 }
 
 func NewApp(engine *engine.Sandgine) *App {
 	container := widget.NewContainer(
 		widget.ContainerOpts.Layout(widget.NewGridLayout(
 			widget.GridLayoutOpts.Columns(2),
-			widget.GridLayoutOpts.Stretch([]bool{true, false}, []bool{false, false}),
+			widget.GridLayoutOpts.Stretch([]bool{true, false}, []bool{true, false}),
 			widget.GridLayoutOpts.Spacing(1, 1))))
+	container.AddChild(ui.NewGameWidget(engine))
 
-	container.AddChild(ui.GameWidget{
-		Engine: engine,
-	})
-
-	container.AddChild(widget.NewLabel(widget.LabelOpts.Text("Hi", resources.Font, &widget.LabelColor{
-		Idle:     color.RGBA{R: 255, A: 255},
-		Disabled: color.RGBA{},
-	})))
+	//container.AddChild(ui.NewControlsWidget(engine))
 
 	return &App{
 		engine: engine,

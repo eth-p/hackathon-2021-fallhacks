@@ -16,14 +16,12 @@ func main() {
 	sandbox := engine.NewSandbox(SANDBOX_WIDTH, SANDBOX_HEIGHT, []engine.Sand{
 		sands.AIR,
 		sands.SAND,
+		sands.WATER,
 	})
 
 	eng := engine.NewSandgine(&sandbox, engine.Config{
-		UpdateInterval: 2,
+		UpdateInterval: 0,
 	})
-
-	g := sandbox.GrainAt(5, 10)
-	g.SetKind(1)
 
 	ebiten.SetWindowSize(900, 600)
 	ebiten.SetWindowTitle("Fall Sands")

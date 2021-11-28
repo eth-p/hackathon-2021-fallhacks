@@ -55,7 +55,9 @@ func (grain *GrainWithMetadata) IsActionable() bool {
 
 // SetUpdated sets the Grain to be considered updated.
 func (grain *GrainWithMetadata) SetUpdated() {
-	grain.updateCounter = grain.sandbox.Contents.FrameID
+	if grain.Grain.Kind != 0 {
+		grain.updateCounter = grain.sandbox.Contents.FrameID
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -93,6 +95,6 @@ func (grain *GrainWithMetadata) MoveSwap(other GrainWithMetadata) {
 // setMoved sets the Grain to be considered moved.
 // This will set the grain as updated and clear the density timer.
 func (grain *GrainWithMetadata) setMoved() {
-	grain.updateCounter = grain.sandbox.Contents.FrameID
+	grain.SetUpdated()
 	grain.DensityTimer = 0
 }
