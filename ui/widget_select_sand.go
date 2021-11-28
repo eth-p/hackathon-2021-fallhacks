@@ -12,10 +12,19 @@ import (
 type SelectSandPanel struct {
 	*widget.Container
 
-	Engine *engine.Sandgine
+	Engine  *engine.Sandgine
+	buttons []*SelectSandButton
 }
 
-func NewSelectSandPanel(engine *engine.Sandgine) *SelectSandPanel {
+func (w *SelectSandPanel) SelectSand(id engine.SandID) {
+	w.Engine.Config.SelectedSand = id
+
+	for _, btn := range w.buttons {
+		btn.GetWidget().Disabled = btn.Kind.ID == id
+	}
+}
+
+func NewSelectSandPanel(eng *engine.Sandgine) *SelectSandPanel {
 	Container := widget.NewContainer(
 		widget.ContainerOpts.BackgroundImage(image.NewNineSliceColor(resources.UiBackgroundColor)),
 		widget.ContainerOpts.Layout(
@@ -24,20 +33,21 @@ func NewSelectSandPanel(engine *engine.Sandgine) *SelectSandPanel {
 				widget.GridLayoutOpts.Spacing(1, 1))))
 
 	w := &SelectSandPanel{
-		Engine:    engine,
+		Engine:    eng,
 		Container: Container,
 	}
 
 	// Add a button for each sand type.
-	btns := make([]*widget.Checkbox, 0)
-	for _, kind := range engine.Sandbox.Sands {
-		btn := NewSelectSandButton(engine, &kind)
-		btns = append(btns, btn.LabeledCheckbox.Checkbox())
+	btns := make([]*SelectSandButton, 0)
+	for _, kind := range eng.Sandbox.Sands() {
+		btn := newSelectSandButton(eng, kind)
+		btn.parent = w
+
+		btns = append(btns, btn)
 		Container.AddChild(btn)
 	}
 
 	// Turn it into a radio group.
-	//_ = widget.NewRadioGroup(widget.RadioGroupOpts.Checkboxes(btns...))
-
+	w.buttons = btns
 	return w
 }

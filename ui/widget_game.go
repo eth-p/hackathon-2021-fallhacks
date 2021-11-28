@@ -12,7 +12,7 @@ import (
 	"github.com/eth-p/hackathon-2021-fallhacks/resources"
 )
 
-// GameWidget is a widget.Widget that renders the game to the screen.
+// GameWidget is a widget.Widget that renders the game to the screen and handles user input.
 type GameWidget struct {
 	*widget.Widget
 
@@ -99,10 +99,13 @@ func (g *GameWidget) Render(screen *ebiten.Image, def widget.DeferredRenderFunc)
 func (g *GameWidget) handleInput() {
 	if g.cursorEntered && g.cursorPainting {
 		x, y := input.CursorPosition()
-
 		paintAtX, paintAtY := g.cursorToCoords(x, y)
+
+		// Set the sand grain at the mouse coordinates.
 		grain := g.Engine.Sandbox.GrainAt(paintAtX, paintAtY)
-		grain.SetKind(2)
+		if grain.Grain != nil {
+			grain.SetKind(g.Engine.Config.SelectedSand)
+		}
 	}
 }
 

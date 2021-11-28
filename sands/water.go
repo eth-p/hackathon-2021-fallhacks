@@ -12,5 +12,10 @@ var WATER = engine.Sand{
 	Color:   color.RGBA{R: 0, G: 16, B: 89, A: 0},
 	Density: 1,
 
-	Update: behaviors.FallFluid,
+	Behaviors: []engine.SandUpdateFunc{
+		behaviors.Gravity(0, 1),
+		behaviors.Gravity(-1, 1),
+		behaviors.Gravity(1, 1),
+		behaviors.Fluid(),
+	},
 }

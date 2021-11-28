@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/blizzy78/ebitenui"
@@ -28,12 +28,17 @@ func (game *App) Layout(outsideWidth, outsideHeight int) (int, int) {
 func (game *App) Update() error {
 	game.ui.Update()
 
+	// Update the game engine.
 	updateStart := time.Now()
 	err := game.engine.Update()
 	updateEnd := time.Now()
 
+	// Print if updating took too long.
 	updateTime := updateEnd.Sub(updateStart)
-	fmt.Printf("Frame took %v\n", updateTime)
+	if updateTime > 15*time.Millisecond {
+		log.Printf("Update slow! Took=%v", updateTime)
+	}
+
 	return err
 }
 
@@ -43,9 +48,9 @@ func NewApp(engine *engine.Sandgine) *App {
 			widget.GridLayoutOpts.Columns(2),
 			widget.GridLayoutOpts.Stretch([]bool{true, false}, []bool{true, false}),
 			widget.GridLayoutOpts.Spacing(1, 1))))
-	container.AddChild(ui.NewGameWidget(engine))
 
-	//container.AddChild(ui.NewControlsWidget(engine))
+	container.AddChild(ui.NewGameWidget(engine))
+	container.AddChild(ui.NewControlsWidget(engine))
 
 	return &App{
 		engine: engine,

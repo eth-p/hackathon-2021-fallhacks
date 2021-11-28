@@ -1,8 +1,6 @@
 package ui
 
 import (
-	"image/color"
-
 	"github.com/blizzy78/ebitenui/image"
 	"github.com/blizzy78/ebitenui/widget"
 
@@ -23,6 +21,7 @@ func NewControlsWidget(engine *engine.Sandgine) *ControlsWidget {
 		widget.ContainerOpts.BackgroundImage(image.NewNineSliceColor(resources.UiBackgroundColor)),
 		widget.ContainerOpts.Layout(
 			widget.NewGridLayout(
+				widget.GridLayoutOpts.Padding(widget.NewInsetsSimple(5)),
 				widget.GridLayoutOpts.Columns(1),
 				widget.GridLayoutOpts.Stretch([]bool{true, true}, []bool{false, true}),
 				widget.GridLayoutOpts.Spacing(1, 1))))
@@ -32,16 +31,15 @@ func NewControlsWidget(engine *engine.Sandgine) *ControlsWidget {
 		Container: Container,
 	}
 
-	Container.AddChild(widget.NewLabel(widget.LabelOpts.Text("Hi", resources.Font, &widget.LabelColor{
-		Idle:     color.RGBA{R: 255, A: 255},
-		Disabled: color.RGBA{},
-	})))
+	Container.AddChild(createHeader("Sands"))
 
-	Container.AddChild(NewSelectSandPanel(engine))
+	selectSandPanel := NewSelectSandPanel(engine)
+	selectSandPanel.SelectSand(0)
+	Container.AddChild(selectSandPanel)
 
 	return w
 }
 
-func (widget *ControlsWidget) PreferredSize() (int, int) {
+func (w *ControlsWidget) PreferredSize() (int, int) {
 	return 150, 0
 }

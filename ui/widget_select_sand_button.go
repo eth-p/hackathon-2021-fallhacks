@@ -10,26 +10,27 @@ import (
 )
 
 type SelectSandButton struct {
-	*widget.LabeledCheckbox
+	*widget.Button
+	parent *SelectSandPanel
 
 	Engine *engine.Sandgine
-	Sand   *engine.Sand
+	Kind   engine.SandWithSandID
 }
 
-func NewSelectSandButton(engine *engine.Sandgine, sand *engine.Sand) *SelectSandButton {
-	box := widget.NewLabeledCheckbox(
-		widget.LabeledCheckboxOpts.LabelOpts(
-			widget.LabelOpts.Text(strings.ToUpper(sand.Name), resources.Font, resources.SelectSandLabel)),
-		widget.LabeledCheckboxOpts.CheckboxOpts(
-			widget.CheckboxOpts.ButtonOpts(widget.ButtonOpts.Image(resources.SelectSandCheckboxBtn)),
-			widget.CheckboxOpts.Image(resources.SelectSandCheckbox)),
-	)
-
+func newSelectSandButton(engine *engine.Sandgine, kind engine.SandWithSandID) *SelectSandButton {
 	w := &SelectSandButton{
-		LabeledCheckbox: box,
-		Engine:          engine,
-		Sand:            sand,
+		Engine: engine,
+		Kind:   kind,
 	}
+
+	w.Button = widget.NewButton(
+		widget.ButtonOpts.ClickedHandler(func(args *widget.ButtonClickedEventArgs) {
+			w.parent.SelectSand(kind.ID)
+		}),
+
+		widget.ButtonOpts.Text(strings.ToUpper(kind.Name), resources.Font, resources.SelectSandButtonText),
+		widget.ButtonOpts.Image(resources.SelectSandButtonImage),
+	)
 
 	return w
 }

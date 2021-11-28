@@ -10,43 +10,40 @@ import (
 	"golang.org/x/image/font"
 )
 
-var Font font.Face
+var Font = loadFont("NotoSans-Regular", truetype.Options{Size: 12})
 
-var SelectSandCheckbox = &widget.CheckboxGraphicImage{
-	Unchecked: &widget.ButtonImageImage{
-		Idle:     image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-		Disabled: image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-	},
-	Checked: &widget.ButtonImageImage{
-		Idle:     image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-		Disabled: image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-	},
-	Greyed: &widget.ButtonImageImage{
-		Idle:     image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-		Disabled: image.NewImageColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-	},
-}
-
-var SelectSandCheckboxBtn = &widget.ButtonImage{
+var SelectSandButtonImage = &widget.ButtonImage{
 	Idle:     image.NewNineSliceColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
 	Hover:    image.NewNineSliceColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
 	Pressed:  image.NewNineSliceColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
-	Disabled: image.NewNineSliceColor(color.RGBA{R: 0, G: 0, B: 0, A: 255}),
+	Disabled: image.NewNineSliceColor(color.RGBA{R: 25, G: 25, B: 25, A: 255}),
 }
 
-var SelectSandLabel = &widget.LabelColor{
-	Idle:     color.RGBA{R: 255, A: 255},
-	Disabled: color.RGBA{R: 255, A: 255},
+var SelectSandButtonText = &widget.ButtonTextColor{
+	Idle:     color.RGBA{R: 192, G: 192, B: 192, A: 255},
+	Disabled: color.RGBA{R: 255, G: 255, B: 255, A: 255},
 }
 
-func init() {
-	font, _ := truetype.Parse(file("NotoSans-Regular.ttf"))
-	Font = truetype.NewFace(font, &truetype.Options{
-		Size: 12,
-	})
+var HeaderTextFont = loadFont("NotoSans-Bold", truetype.Options{Size: 14})
+var HeaderTextColor = &widget.LabelColor{
+	Idle:     color.RGBA{R: 255, G: 255, B: 255, A: 255},
+	Disabled: color.RGBA{R: 255, G: 255, B: 255, A: 255},
 }
 
-func file(name string) []byte {
+// ---------------------------------------------------------------------------------------------------------------------
+
+// loadFont loads an embedded font.
+func loadFont(name string, options truetype.Options) font.Face {
+	font, err := truetype.Parse(loadFile("NotoSans-Regular.ttf"))
+	if err != nil {
+		panic("failed to decode font file: " + err.Error())
+	}
+
+	return truetype.NewFace(font, &options)
+}
+
+// loadFile loads an embedded file.
+func loadFile(name string) []byte {
 	contents, err := _files.ReadFile(name)
 	if err != nil {
 		panic("failed to open file: " + err.Error())
@@ -57,8 +54,3 @@ func file(name string) []byte {
 
 //go:embed *
 var _files embed.FS
-
-type Config struct {
-	UpdateInterval uint
-	Paused         bool
-}

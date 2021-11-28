@@ -15,8 +15,10 @@ const SANDBOX_HEIGHT = 100
 func main() {
 	sandbox := engine.NewSandbox(SANDBOX_WIDTH, SANDBOX_HEIGHT, []engine.Sand{
 		sands.AIR,
+		sands.WALL,
 		sands.SAND,
 		sands.WATER,
+		sands.FIRE,
 	})
 
 	eng := engine.NewSandgine(&sandbox, engine.Config{

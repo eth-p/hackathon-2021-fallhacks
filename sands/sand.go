@@ -12,5 +12,9 @@ var SAND = engine.Sand{
 	Color:   color.RGBA{R: 176, G: 152, B: 0, A: 0},
 	Density: 2,
 
-	Update: behaviors.FallSticky,
+	Behaviors: []engine.SandUpdateFunc{
+		behaviors.Gravity(0, 1),
+		behaviors.Gravity(-1, 1),
+		behaviors.Gravity(1, 1),
+	},
 }

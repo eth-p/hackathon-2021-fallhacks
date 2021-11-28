@@ -6,7 +6,10 @@ import "image/color"
 type SandID uint16
 
 // SandUpdateFunc is the function called to update a grain of sand on each frame.
-type SandUpdateFunc func(grain GrainWithMetadata)
+type SandUpdateFunc func(grain *GrainWithMetadata)
+
+// SandInitializeFunc is the function called when creating a grain of sand.
+type SandInitializeFunc func(grain *GrainWithMetadata)
 
 // Sand is an archetype for a grain of sand.
 // This describes what a kind of sand is and how it behaves.
@@ -15,5 +18,12 @@ type Sand struct {
 	Color   color.RGBA
 	Density float64
 
-	Update SandUpdateFunc
+	Behaviors []SandUpdateFunc
+	Init      SandInitializeFunc
+}
+
+// SandWithSandID is a pointer to a game's Sand and its associated SandID.
+type SandWithSandID struct {
+	*Sand
+	ID SandID
 }

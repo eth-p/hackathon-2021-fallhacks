@@ -42,7 +42,7 @@ func (engine *Sandgine) Render() *ebiten.Image {
 
 	// Render each individual sand.
 	for i, grain := range engine.Sandbox.Contents.Grains {
-		archetype := engine.Sandbox.Sands[grain.Kind]
+		archetype := engine.Sandbox.sands[grain.Kind]
 
 		iS := 4 * i
 		pxBuf[iS+0] = archetype.Color.R
