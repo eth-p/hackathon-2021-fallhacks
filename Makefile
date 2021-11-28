@@ -12,6 +12,7 @@ build:
 # Target: build-wasm
 # Build the game for webassembly.
 build-wasm:
+	go get ./...
 	GOOS=js GOARCH=wasm go build -o "$(OUT_DIR)/wasm/game.wasm" $(PROJECT)
 	cp "$$(go env GOROOT)/misc/wasm/wasm_exec.js" "$(OUT_DIR)/wasm/wasm_exec.js"
 	cp "main.html" "$(OUT_DIR)/wasm/index.html"
