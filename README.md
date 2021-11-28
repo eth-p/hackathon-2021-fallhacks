@@ -1,6 +1,8 @@
 # Fall Hacks 2021: Fall Sands
 Theme: 3 clicks from the [SFU Wikipedia page](https://en.wikipedia.org/wiki/Simon_Fraser_University).
 
+![Screenshot](README.png)
+
 ## Clicks
 
 Start: [Simon Fraser University](https://en.wikipedia.org/w/index.php?title=Simon_Fraser_University&oldid=1056990962)  
@@ -10,4 +12,4 @@ Third: [Video game](https://en.wikipedia.org/wiki/Video_game)
 
 ## Build
 
-TODO
+`make run`

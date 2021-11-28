@@ -6,6 +6,7 @@ OUT_DIR = bin
 .PHONY: build
 build:
 	@mkdir -p $(OUT_DIR) || true
+	go get ./...
 	go build -o $(OUT_DIR)/fallsands $(PROJECT)
 
 # Target: build-wasm
