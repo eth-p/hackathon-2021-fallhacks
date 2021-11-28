@@ -59,6 +59,16 @@ func (grain *GrainWithMetadata) Kind() *Sand {
 	return grain.kind
 }
 
+// KindID returns the SandID kind of this Grain.
+// If the Grain is out of bounds, 0 is returned.
+func (grain *GrainWithMetadata) KindID() SandID {
+	if grain.Grain == nil {
+		return SandID(0)
+	}
+
+	return grain.Grain.Kind
+}
+
 // SetKind sets the Grain to a specific SandID, using its default values.
 func (grain *GrainWithMetadata) SetKind(id SandID) {
 	grain.Grain.Kind = id

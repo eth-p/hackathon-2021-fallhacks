@@ -23,11 +23,6 @@ func doGravity(sand *engine.GrainWithMetadata, dx, dy int) bool {
 		return false
 	}
 
-	if target.GetFlag(engine.GrainLocked) {
-		sand.SetUpdated()
-		return true
-	}
-
 	// If the target grain is the same kind, skip it.
 	if target.Kind() == sandKind {
 		return false
@@ -39,6 +34,12 @@ func doGravity(sand *engine.GrainWithMetadata, dx, dy int) bool {
 		if reaction(sand, &target) {
 			return true
 		}
+	}
+
+	// If the target is locked, don't move into it.
+	if target.GetFlag(engine.GrainLocked) {
+		sand.SetUpdated()
+		return true
 	}
 
 	// Calculate the density difference.

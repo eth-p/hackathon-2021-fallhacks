@@ -28,6 +28,7 @@ func (sandbox *Sandbox) Update() {
 }
 
 func (sandbox *Sandbox) updateGrain(currentFrame uint8, kind *Sand, grain *GrainWithMetadata) {
+	grain.GenericTimer += 1
 	for _, behavior := range kind.Behaviors {
 		if grain.updateCounter == currentFrame {
 			return

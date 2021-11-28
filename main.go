@@ -17,9 +17,13 @@ func main() {
 		sands.AIR,
 		sands.WALL,
 		sands.WOOD,
+		sands.DIRT,
 		sands.SAND,
 		sands.WATER,
 		sands.FIRE,
+		sands.GRASS,
+		sands.ICE,
+		sands.TORCH,
 	})
 
 	eng := engine.NewSandgine(&sandbox, engine.Config{

@@ -11,7 +11,5 @@ func Expires(frames uint16) engine.SandUpdateFunc {
 			grain.Clear()
 			return
 		}
-
-		grain.GenericTimer += 1
 	}
 }

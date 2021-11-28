@@ -2,6 +2,9 @@ package engine
 
 const (
 	TagPyro = 1 << 1
+	TagDirt = 1 << 2
+	TagAir  = 1 << 3
+	TagCryo = 1 << 4
 )
 
 //

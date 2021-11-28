@@ -8,10 +8,10 @@ import (
 	"github.com/eth-p/hackathon-2021-fallhacks/sands/reactions"
 )
 
-var WOOD = engine.Sand{
-	Name:    "Wood",
-	Color:   color.RGBA{R: 78, G: 78, B: 0, A: 0},
-	Density: 0,
+var ICE = engine.Sand{
+	Name:    "Ice",
+	Color:   color.RGBA{R: 100, G: 116, B: 189, A: 0},
+	Density: 1,
 
 	Behaviors: []engine.SandUpdateFunc{
 		behaviors.Reactable(),
@@ -22,6 +22,6 @@ var WOOD = engine.Sand{
 	},
 
 	Reactions: []engine.SandReactionFunc{
-		reactions.Flammable(engine.TagPyro, &FIRE),
+		reactions.Flammable(engine.TagPyro, &WATER),
 	},
 }
